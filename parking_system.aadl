@@ -1,6 +1,5 @@
 package parking_system
 public
-	with parking_types;
 	with cheddar_properties;
 	with deployment;
 
@@ -10,36 +9,6 @@ public
 	SYSTEM parking
 	end parking;
 	
-	-- Implementacja systemu składa się z urządzeń fizycznych (sprzęt):
-	-- antena + procesor + pamięć + magistrala 
-	-- i z oprogramowania: uruchomione procesy i wątki + funkcjonalności systemu operacyjnego
-	-- (planowanie) zaimplementowane w procesorze, które jednocześnie stanowią część platformy wykonawczej
-	-- i urządzeń fizycznych.
-	SYSTEM IMPLEMENTATION radar.simple
-		SUBCOMPONENTS
-			aerial: DEVICE antenna;
-			rotor: DEVICE motor;
-			monitor: DEVICE screen;
-			main: PROCESS processing.others;
-			cpu: PROCESSOR leon2;
-			VME: BUS VME;
-			RAM: MEMORY RAM;
-		CONNECTIONS
-			A1: PORT aerial.antenna_out -> main.receive_pulse;
-			A2: PORT rotor.motor_out -> main.get_angle;
-			A3: PORT main.send_pulse -> aerial.antenna_in;
-			A4: PORT main.to_screen -> monitor.screen_in;
-			A5: BUS ACCESS VME -> aerial.VME;
-			A6: BUS ACCESS VME -> rotor.VME;
-			A7: BUS ACCESS VME -> monitor.VME;
-			A8: BUS ACCESS VME -> cpu.VME;
-			A9: BUS ACCESS VME -> RAM.VME;
-		PROPERTIES
-			Actual_Memory_Binding => (reference (ram)) applies to main;
-			Actual_Processor_Binding => (reference (cpu)) applies to main;
-	END radar.simple;
-	
-
 	SYSTEM IMPLEMENTATION parking.simple
 	SUBCOMPONENTS
 		cpu: PROCESSOR leon2;
@@ -56,18 +25,14 @@ public
 		check_out: DEVICE check_out;
 		board: DEVICE capacity_board;
 		parking_slot1: DEVICE slot_sensor;
-		parking_slot_led1: DEVICE led_display;
+
 		parking_slot2: DEVICE slot_sensor;
-		parking_slot_led2: DEVICE led_display;
+
 		parking_slot3: DEVICE slot_sensor;
-		parking_slot_led3: DEVICE led_display;
+
 		main: PROCESS parking_process.impl;
-	CONNECTIONS
-		A1: BUS ACCESS VME -> camera_in.VME;
-		A2: BUS ACCESS VME -> camera_out.VME;
-		A3: BUS ACCESS VME -> check_out.VME;
-		A4: BUS ACCESS VME -> RAM.VME;
-		A5: BUS ACCESS VME -> cpu.VME;
+
+	connections
 		parking_simple_new_connection: port main.open_gate_out -> gate_out.open_gate;
 		parking_simple_new_connection2: port main.open_gate_in -> gate_in.open_gate;
 		parking_simple_new_connection3: port main.open_gate_out -> gate_out.open_gate;
@@ -81,20 +46,22 @@ public
 
 		parking_simple_new_connection12: port check_out.parking_paid -> main.parking_paid;
 		parking_simple_new_connection11: port main.parking_price -> check_out.parking_price;
-		parking_simple_new_connection13: port parking_slot1.car_in -> main.parkin_slot1_car_in;
-		parking_simple_new_connection14: port parking_slot1.car_out -> main.parkin_slot1_car_out;
-		parking_simple_new_connection15: port parking_slot2.car_out -> main.parkin_slot2_car_out;
-		parking_simple_new_connection16: port parking_slot2.car_in -> main.parkin_slot2_car_in;
-		parking_simple_new_connection17: port parking_slot3.car_in -> main.parkin_slot3_car_in;
-		parking_simple_new_connection18: port parking_slot3.car_out -> main.parkin_slot3_car_out;
 		parking_simple_new_connection19: port gate_loop_out.car_on_loop -> main.car_on_gate_loop_out;
 		parking_simple_new_connection20: port gate_loop_in.car_on_loop -> main.car_on_gate_loop_in;
-		parking_simple_new_connection21: bus access VME -> board.VME;
+		A1: BUS ACCESS VME -> camera_in.VME;
+		A2: BUS ACCESS VME -> camera_out.VME;
+		A3: BUS ACCESS VME -> check_out.VME;
+		A4: BUS ACCESS VME -> RAM.VME;
+		A5: BUS ACCESS VME -> cpu.VME;
 		parking_simple_new_connection22: port main.open_slots -> board.open_slots;
 
-		parking_simple_new_connection24: port main.change_state_led3 -> parking_slot_led3.change_state;
-		parking_simple_new_connection23: port main.change_state_led2 -> parking_slot_led2.change_state;
-		parking_simple_new_connection25: port main.change_state_led1 -> parking_slot_led1.change_state;
+		parking_simple_new_connection26: port main.close_gate_in -> gate_in.close_gate;
+		parking_simple_new_connection21: bus access VME -> board.VME;
+		parking_simple_new_connection14: port parking_slot1.car_out -> main.car_out;
+		parking_simple_new_connection15: port parking_slot3.car_out -> main.car_out;
+		parking_simple_new_connection16: port parking_slot2.car_in -> main.car_in;
+		parking_simple_new_connection17: port parking_slot1.car_in -> main.car_in;
+		parking_simple_new_connection18: port parking_slot3.car_in -> main.car_out;
 	properties
 		Actual_Memory_Binding => (reference (ram)) applies to main;
 		Actual_Processor_Binding => (reference (cpu)) applies to main;
@@ -107,17 +74,18 @@ end parking.simple;
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
 			open_slots: in data port;
-	end capcity_board;
+	end capacity_board;
+	
 	
 	DEVICE slot_sensor
 		FEATURES
 			car_in: out event port;
-			car_out: out event port;	
+			car_out: out event port;
 	end slot_sensor;
 
 	DEVICE led_display
 		FEATURES
-			change_state: in event port;	
+			change_state: in event port;
 	end led_display;
 
 	DEVICE camera
@@ -130,6 +98,7 @@ end camera;
 	DEVICE gate
 	features
 		open_gate: in event port;
+		close_gate: in event port;
 	end gate;
 
 	DEVICE check_out
@@ -146,228 +115,90 @@ end check_out;
 	end inductive_loop;
 
 
---urządzenia radaru
-
-	-- Antena symuluje środowisko radarowe.
-	-- Impuls jest wyzwalany przez odbiór sygnału z nadajnika.
-	-- Wewnętrzna logika ocenia opóźnienie impulsu echa i wyzwala wysyłanie sygnału
-	-- do odbiornika.
-	DEVICE antenna
-		FEATURES
-			antenna_in: IN EVENT PORT;	
-			-- Port podłączony do głównego procesu: przetwarzanie sygnału
-			antenna_out: OUT DATA PORT parking_types::Target_Distance;
-			VME: REQUIRES BUS ACCESS VME;
-		PROPERTIES
-			Compute_Execution_Time => 1ms .. 2ms;
-			Deadline => 1ms;
-			Period => 1ms;
-	END antenna;
-
-	DEVICE motor
-		FEATURES
-			motor_out: OUT DATA PORT parking_types::Motor_Position;
-			VME: REQUIRES BUS ACCESS VME;
-		PROPERTIES
-			Compute_Execution_Time => 1ms .. 2ms;
-			Deadline => 1ms;
-			Period => 1ms;
-	END motor;
-
-	DEVICE screen
-		FEATURES
-			VME: REQUIRES BUS ACCESS VME;
-			screen_in: IN EVENT PORT;
-		PROPERTIES
-			Compute_Execution_Time => 1ms .. 2ms;
-			Deadline => 1ms;
-			Period => 1ms;
-	END screen;
-
-
-
---procesy i wątki dla radaru
-
-	-- Główny proces odpowiada za przetwarzanie sygnałów:
-	-- Ogólny wzorzec to: nadajnik -> antena -> odbiornik -> analizator -> wyświetlacz
-	PROCESS processing
-		FEATURES
-			to_screen: OUT EVENT PORT;
-			send_pulse: OUT EVENT PORT;
-			receive_pulse: IN DATA PORT parking_types::Target_Distance;
-			get_angle: IN DATA PORT parking_types::Motor_Position;
-	END processing;
-
-	PROCESS IMPLEMENTATION processing.others
-		SUBCOMPONENTS
-			receive: THREAD receiver.impl;
-			analyse: THREAD analyser.impl;
-			display: THREAD display_panel.impl;
-			transmit: THREAD transmitter.impl;
-			control_angle: THREAD controller.impl;
-		CONNECTIONS
-			A10: PORT receive_pulse -> receive.receiver_in;
-			A11: PORT display.display_out -> to_screen;
-			A12: PORT transmit.transmitter_out -> send_pulse;
-			A13: PORT get_angle -> control_angle.controller_in;
-			A14: PORT receive.receiver_out -> analyse.from_receiver;
-			A15: PORT analyse.analyser_out -> display.display_in;
-			A16: PORT transmit.transmitter_out -> analyse.from_transmitter;
-			A17: PORT control_angle.controller_out -> analyse.from_controller;
-	END processing.others;
-	
-	-- Ten wątek odbiera echa radaru z anteny.
-	THREAD receiver
-		FEATURES
-			receiver_out: OUT DATA PORT parking_types::Target_Distance;
-			receiver_in: IN DATA PORT parking_types::Target_Distance;
-	END receiver;
-
-	THREAD IMPLEMENTATION receiver.impl
-		CALLS
-			CS: {
-				RS: SUBPROGRAM Receiver_Spg;
-			};
-		CONNECTIONS
-			A18: PARAMETER RS.receiver_out -> receiver_out;
-			A19: PARAMETER receiver_in -> RS.receiver_in;
-		PROPERTIES
-			Cheddar_Properties::Fixed_Priority => 63;
-			Dispatch_Protocol => Periodic;
-			Compute_Execution_Time => 10ms .. 20ms;
-			Deadline => 150ms;
-			Period => 1500ms;
-	END receiver.impl;
-
-	SUBPROGRAM Receiver_Spg
-		FEATURES
-			receiver_out: OUT PARAMETER parking_types::Target_Distance;
-			receiver_in: IN PARAMETER parking_types::Target_Distance;
-		properties
-			Source_Language => (Ada95);
-			Source_Name => "radar.receiver";
-	END Receiver_Spg;
-	
-	-- Wątek ten porównuje przesyłane i odbierane sygnały w celu wykrywania, 
-	-- lokalizacji i identyfikacji.
-	THREAD analyser
-		FEATURES
-			from_transmitter: IN EVENT PORT;
-			from_receiver: IN DATA PORT parking_types::Target_Distance;
-			analyser_out: OUT DATA PORT parking_types::Target_Position.Impl;
-			from_controller: IN DATA PORT parking_types::Motor_Position;
-	END analyser;
-
-	THREAD IMPLEMENTATION analyser.impl
-		CALLS
-			CS: {
-				AS: SUBPROGRAM Analyser_Spg;
-			};
-		CONNECTIONS
-			A20: PARAMETER from_receiver -> AS.from_receiver;
-			A21: PARAMETER AS.analyser_out -> analyser_out;
-			A22: PARAMETER from_controller -> AS.from_controller;
-		PROPERTIES
-			Cheddar_Properties::Fixed_Priority => 62;
-			Dispatch_Protocol => Periodic;
-			Compute_Execution_Time => 40ms .. 60ms;
-			Deadline => 500ms;
-			Period => 5000ms;
-	END analyser.impl;
-
-	SUBPROGRAM Analyser_Spg
-		FEATURES
-			from_receiver: IN PARAMETER parking_types::Target_Distance;
-			analyser_out: OUT PARAMETER parking_types::Target_Position.Impl;
-			from_controller: IN PARAMETER parking_types::Motor_Position;
-		properties
-			Source_Language => (Ada95);
-			Source_Name => "radar.analyser";
-	END Analyser_Spg;
-	
-	-- Wątek ten odpowiada za formatowanie i wyświetlanie przetworzonych sygnałów
-	THREAD display_panel
-		FEATURES
-			display_in: IN DATA PORT parking_types::Target_Position.Impl;
-			display_out: OUT EVENT PORT;
-	END display_panel;
-
-	THREAD IMPLEMENTATION display_panel.impl
-		CALLS
-			CS: {
-				DS: SUBPROGRAM Display_Spg;
-			};
-		CONNECTIONS
-			A23: PARAMETER display_in -> DS.display_in;
-		PROPERTIES
-			Cheddar_Properties::Fixed_Priority => 60;
-			Dispatch_Protocol => Periodic;
-			Compute_Execution_Time => 10ms .. 30ms;
-			Deadline => 200ms;
-			Period => 2000ms;
-	END display_panel.impl;
-
-	SUBPROGRAM Display_Spg
-		FEATURES
-			display_in: IN PARAMETER parking_types::Target_Position.Impl;
-		properties
-			Source_Language => (Ada95);
-			Source_Name => "radar.display_panel";
-	END Display_Spg;
-
-	-- Ten wątek wysyła sygnały radarowe do anteny.
-	THREAD transmitter
-		FEATURES
-			transmitter_out: OUT EVENT PORT;
-	END transmitter;
-
-	THREAD IMPLEMENTATION transmitter.impl
-		PROPERTIES
-			Cheddar_Properties::Fixed_Priority => 71;
-			Dispatch_Protocol => Periodic;
-			Compute_Execution_Time => 10ms .. 10ms;
-			Compute_Entrypoint_Source_Text => "radar.transmitter";
-			Deadline => 50ms;
-			Period => 500ms;
-	END transmitter.impl;
-
-	THREAD controller
-		FEATURES
-			controller_in: IN DATA PORT parking_types::Motor_Position;
-			controller_out: OUT DATA PORT parking_types::Motor_Position;
-	END controller;
-
-	THREAD IMPLEMENTATION controller.impl
-		CALLS
-			CS1: {
-				CS: SUBPROGRAM Controller_Spg;
-			};
-		CONNECTIONS
-			A24: PARAMETER controller_in -> CS.controller_in;
-			A25: PARAMETER CS.controller_out -> controller_out;
-		PROPERTIES
-			Cheddar_Properties::Fixed_Priority => 70;
-			Dispatch_Protocol => Periodic;
-			Compute_Execution_Time => 10ms .. 10ms;
-			Deadline => 150ms;
-			Period => 1500ms;
-	END controller.impl;
-
-	SUBPROGRAM Controller_Spg
-		FEATURES
-			controller_in: IN PARAMETER parking_types::Motor_Position;
-			controller_out: OUT PARAMETER parking_types::Motor_Position;
-		properties
-			Source_Language => (Ada95);
-			Source_Name => "radar.controller";
-	END Controller_Spg;
-	
-	
-	
-
-
-
 -- od tego miejsca procesy i wątki dla parkingu
+
+THREAD inductive_loop_in_thread
+	FEATURES
+		car_on_loop: in event port;	
+		recognize_plates_in: out event port;
+end inductive_loop_in_thread;
+
+THREAD IMPLEMENTATION inductive_loop_in_thread.impl
+end inductive_loop_in_thread.impl;
+
+THREAD inductive_loop_out_thread
+	FEATURES
+		car_on_loop: in event port;	
+		recognize_plates_out: out event port;
+end inductive_loop_out_thread;
+
+THREAD IMPLEMENTATION inductive_loop_out_thread.impl
+end inductive_loop_out_thread.impl;
+
+THREAD plates_data_thread
+	FEATURES
+		plates_data_in: in data port;	
+		open_gate_in: out event port;
+end plates_data_thread;
+
+THREAD IMPLEMENTATION plates_data_thread.impl
+end plates_data_thread.impl;
+
+THREAD car_passed_entry_thread
+	FEATURES
+		car_on_loop: in event port;	
+		close_gate: out event port;
+end car_passed_entry_thread;
+
+THREAD IMPLEMENTATION car_passed_entry_thread.impl
+end car_passed_entry_thread.impl;
+
+THREAD car_parked_thread
+	FEATURES
+		slots_number: out data port;
+		car_parked: in event port;
+end car_parked_thread;
+
+THREAD IMPLEMENTATION car_parked_thread.impl
+end car_parked_thread.impl;
+
+THREAD car_moved_thread
+	FEATURES
+		slots_number: out data port;
+		car_moved: in event port;
+
+end car_moved_thread;
+
+THREAD IMPLEMENTATION car_moved_thread.impl
+end car_moved_thread.impl;
+
+THREAD calculate_price
+	FEATURES
+		plate_number: in data port;
+		calculated_price: out data port;
+
+end calculate_price;
+
+THREAD IMPLEMENTATION calculate_price.impl
+end calculate_price.impl;
+
+THREAD open_gate_out_thread
+	FEATURES
+		parking_paid: in event port;
+		open_gate_out: out event port;
+end open_gate_out_thread;
+
+THREAD IMPLEMENTATION open_gate_out_thread.impl
+end open_gate_out_thread.impl;
+
+THREAD car_passed_exit_thread
+	FEATURES
+		car_on_loop: in event port;	
+		close_gate: out event port;
+end car_passed_exit_thread;
+
+THREAD IMPLEMENTATION car_passed_exit_thread.impl
+end car_passed_exit_thread.impl;
 
 	PROCESS parking_process
 
@@ -376,6 +207,7 @@ end check_out;
 		plates_data_out: in data port;
 		parking_price: out data port;
 		open_slots: out data port;
+
 		open_gate_in: out event port;
 		open_gate_out: out event port;
 		car_on_loop_in: in event port;
@@ -383,20 +215,49 @@ end check_out;
 		recognise_plates_in: out event port;
 		recognise_plates_out: out event port;
 		parking_paid: in event port;
-		parkin_slot1_car_in: in event port;
-		parkin_slot1_car_out: in event port;
-		parkin_slot2_car_out: in event port;
-		parkin_slot2_car_in: in event port;
-		parkin_slot3_car_out: in event port;
-		parkin_slot3_car_in: in event port;
+
 		car_on_gate_loop_in: in event port;
 		car_on_gate_loop_out: in event port;
-		change_state_led1: out event port;
-		change_state_led2: out event port;
-		change_state_led3: out event port;
+
+		close_gate_in: out event port;
+		close_gate_out: out event port;
+		car_in: in event port;
+
+		car_out: in event port;
+
 end parking_process;
 
-	PROCESS IMPLEMENTATION parking_process.impl
+PROCESS IMPLEMENTATION parking_process.impl
+	SUBCOMPONENTS
+		inductive_loop_in_thread: THREAD inductive_loop_in_thread.impl;
+		plates_data_thread: THREAD plates_data_thread.impl;
+		car_passed_entry_thread: THREAD car_passed_entry_thread.impl;
+		car_parked_thread: THREAD car_parked_thread.impl;
+		car_moved_thread: THREAD car_moved_thread.impl;
+		inductive_loop_out_thread: THREAD inductive_loop_out_thread.impl;
+		calculate_price: THREAD calculate_price.impl;
+		open_gate_out_thread: THREAD open_gate_out_thread.impl;
+		car_passed_exit_thread: THREAD car_passed_exit_thread.impl;
+	connections
+		parking_process_impl_new_connection: port car_on_loop_in -> inductive_loop_in_thread.car_on_loop;
+		parking_process_impl_new_connection2: port inductive_loop_in_thread.recognize_plates_in -> recognise_plates_in;
+		parking_process_impl_new_connection3: port plates_data_in -> plates_data_thread.plates_data_in;
+		parking_process_impl_new_connection4: port plates_data_thread.open_gate_in -> open_gate_in;
+		parking_process_impl_new_connection5: port car_on_gate_loop_in -> car_passed_entry_thread.car_on_loop;
+		parking_process_impl_new_connection6: port car_passed_entry_thread.close_gate -> close_gate_in;
+		parking_process_impl_new_connection7: port car_in -> car_parked_thread.car_parked;
+		parking_process_impl_new_connection8: port car_out -> car_moved_thread.car_moved;
+		parking_process_impl_new_connection9: port car_parked_thread.slots_number -> open_slots;
+		parking_process_impl_new_connection10: port car_moved_thread.slots_number -> open_slots;
+		parking_process_impl_new_connection11: port car_on_loop_out -> inductive_loop_out_thread.car_on_loop;
+
+		parking_process_impl_new_connection13: port calculate_price.calculated_price -> parking_price;
+		parking_process_impl_new_connection14: port plates_data_out -> calculate_price.plate_number;
+		parking_process_impl_new_connection15: port car_on_gate_loop_out -> car_passed_exit_thread.car_on_loop;
+		parking_process_impl_new_connection12: port inductive_loop_out_thread.recognize_plates_out -> recognise_plates_out;
+		parking_process_impl_new_connection16: port open_gate_out_thread.open_gate_out -> open_gate_out;
+		parking_process_impl_new_connection17: port car_passed_exit_thread.close_gate -> close_gate_out;
+		parking_process_impl_new_connection18: port parking_paid -> open_gate_out_thread.parking_paid;
 end parking_process.impl;
 
 	
@@ -425,7 +286,4 @@ end parking_process.impl;
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
 	END RAM;
-
-	
-	
 end parking_system;
