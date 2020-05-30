@@ -51,7 +51,16 @@ public
 		gate_out: DEVICE gate;
 		inductive_loop_in: DEVICE inductive_loop;
 		inductive_loop_out: DEVICE inductive_loop;
+		gate_loop_in: DEVICE inductive_loop;
+		gate_loop_out: DEVICE inductive_loop;
 		check_out: DEVICE check_out;
+		board: DEVICE capacity_board;
+		parking_slot1: DEVICE slot_sensor;
+		parking_slot_led1: DEVICE led_display;
+		parking_slot2: DEVICE slot_sensor;
+		parking_slot_led2: DEVICE led_display;
+		parking_slot3: DEVICE slot_sensor;
+		parking_slot_led3: DEVICE led_display;
 		main: PROCESS parking_process.impl;
 	CONNECTIONS
 		A1: BUS ACCESS VME -> camera_in.VME;
@@ -72,6 +81,20 @@ public
 
 		parking_simple_new_connection12: port check_out.parking_paid -> main.parking_paid;
 		parking_simple_new_connection11: port main.parking_price -> check_out.parking_price;
+		parking_simple_new_connection13: port parking_slot1.car_in -> main.parkin_slot1_car_in;
+		parking_simple_new_connection14: port parking_slot1.car_out -> main.parkin_slot1_car_out;
+		parking_simple_new_connection15: port parking_slot2.car_out -> main.parkin_slot2_car_out;
+		parking_simple_new_connection16: port parking_slot2.car_in -> main.parkin_slot2_car_in;
+		parking_simple_new_connection17: port parking_slot3.car_in -> main.parkin_slot3_car_in;
+		parking_simple_new_connection18: port parking_slot3.car_out -> main.parkin_slot3_car_out;
+		parking_simple_new_connection19: port gate_loop_out.car_on_loop -> main.car_on_gate_loop_out;
+		parking_simple_new_connection20: port gate_loop_in.car_on_loop -> main.car_on_gate_loop_in;
+		parking_simple_new_connection21: bus access VME -> board.VME;
+		parking_simple_new_connection22: port main.open_slots -> board.open_slots;
+
+		parking_simple_new_connection24: port main.change_state_led3 -> parking_slot_led3.change_state;
+		parking_simple_new_connection23: port main.change_state_led2 -> parking_slot_led2.change_state;
+		parking_simple_new_connection25: port main.change_state_led1 -> parking_slot_led1.change_state;
 	properties
 		Actual_Memory_Binding => (reference (ram)) applies to main;
 		Actual_Processor_Binding => (reference (cpu)) applies to main;
@@ -80,6 +103,23 @@ end parking.simple;
 
 
 -- urządzenia parkingu
+	DEVICE capacity_board
+		FEATURES
+			VME: REQUIRES BUS ACCESS VME;
+			open_slots: in data port;
+	end capcity_board;
+	
+	DEVICE slot_sensor
+		FEATURES
+			car_in: out event port;
+			car_out: out event port;	
+	end slot_sensor;
+
+	DEVICE led_display
+		FEATURES
+			change_state: in event port;	
+	end led_display;
+
 	DEVICE camera
 	FEATURES
 		VME: REQUIRES BUS ACCESS VME;
@@ -335,6 +375,7 @@ end check_out;
 		plates_data_in: in data port;
 		plates_data_out: in data port;
 		parking_price: out data port;
+		open_slots: out data port;
 		open_gate_in: out event port;
 		open_gate_out: out event port;
 		car_on_loop_in: in event port;
@@ -342,11 +383,21 @@ end check_out;
 		recognise_plates_in: out event port;
 		recognise_plates_out: out event port;
 		parking_paid: in event port;
+		parkin_slot1_car_in: in event port;
+		parkin_slot1_car_out: in event port;
+		parkin_slot2_car_out: in event port;
+		parkin_slot2_car_in: in event port;
+		parkin_slot3_car_out: in event port;
+		parkin_slot3_car_in: in event port;
+		car_on_gate_loop_in: in event port;
+		car_on_gate_loop_out: in event port;
+		change_state_led1: out event port;
+		change_state_led2: out event port;
+		change_state_led3: out event port;
 end parking_process;
 
 	PROCESS IMPLEMENTATION parking_process.impl
-	
-	end parking_process.impl;
+end parking_process.impl;
 
 	
 	
