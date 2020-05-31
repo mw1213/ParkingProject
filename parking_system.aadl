@@ -3,8 +3,6 @@ public
 	with cheddar_properties;
 	with deployment;
 
-	SYSTEM radar
-	END radar;
 	
 	SYSTEM parking
 	end parking;
@@ -74,6 +72,9 @@ end parking.simple;
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
 			open_slots: in data port;
+		PROPERTIES
+			Compute_Execution_Time => 5ms .. 10ms;
+			Deadline => 20ms;
 	end capacity_board;
 	
 	
@@ -81,6 +82,9 @@ end parking.simple;
 		FEATURES
 			car_in: out event port;
 			car_out: out event port;
+		PROPERTIES
+			Compute_Execution_Time => 1ms .. 5ms;
+			Deadline => 5ms;
 	end slot_sensor;
 
 	DEVICE led_display
@@ -93,12 +97,18 @@ end parking.simple;
 		VME: REQUIRES BUS ACCESS VME;
 		plates_data: out data port;
 		recognise_plates: in event port;
+	PROPERTIES
+			Compute_Execution_Time => 20ms .. 40ms;
+			Deadline => 80ms;
 end camera;
 
 	DEVICE gate
 	features
 		open_gate: in event port;
 		close_gate: in event port;
+		PROPERTIES
+			Compute_Execution_Time => 3000ms .. 5000ms;
+			Deadline => 7000ms;
 	end gate;
 
 	DEVICE check_out
@@ -107,11 +117,17 @@ end camera;
 
 		parking_price: in data port;
 		parking_paid: out event port;
+		PROPERTIES
+			Compute_Execution_Time => 10000ms .. 120000ms;
+			Deadline => 180000ms;
 end check_out;
 	
 	DEVICE inductive_loop
 		FEATURES
-			car_on_loop: out event port;	
+			car_on_loop: out event port;
+		PROPERTIES
+			Compute_Execution_Time => 5ms .. 10ms;
+			Deadline => 20ms;	
 	end inductive_loop;
 
 
@@ -121,6 +137,12 @@ THREAD inductive_loop_in_thread
 	FEATURES
 		car_on_loop: in event port;	
 		recognize_plates_in: out event port;
+	PROPERTIES
+		Priority => 70;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
+			
 end inductive_loop_in_thread;
 
 THREAD IMPLEMENTATION inductive_loop_in_thread.impl
@@ -130,6 +152,11 @@ THREAD inductive_loop_out_thread
 	FEATURES
 		car_on_loop: in event port;	
 		recognize_plates_out: out event port;
+	PROPERTIES
+		Priority => 70;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
 end inductive_loop_out_thread;
 
 THREAD IMPLEMENTATION inductive_loop_out_thread.impl
@@ -139,6 +166,11 @@ THREAD plates_data_thread
 	FEATURES
 		plates_data_in: in data port;	
 		open_gate_in: out event port;
+	PROPERTIES
+		Priority => 95;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 20 ms .. 30 ms;
+		Deadline => 1000ms;
 end plates_data_thread;
 
 THREAD IMPLEMENTATION plates_data_thread.impl
@@ -148,6 +180,11 @@ THREAD car_passed_entry_thread
 	FEATURES
 		car_on_loop: in event port;	
 		close_gate: out event port;
+	PROPERTIES
+		Priority => 70;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
 end car_passed_entry_thread;
 
 THREAD IMPLEMENTATION car_passed_entry_thread.impl
@@ -157,6 +194,11 @@ THREAD car_parked_thread
 	FEATURES
 		slots_number: out data port;
 		car_parked: in event port;
+	PROPERTIES
+		Priority => 40;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
 end car_parked_thread;
 
 THREAD IMPLEMENTATION car_parked_thread.impl
@@ -166,6 +208,11 @@ THREAD car_moved_thread
 	FEATURES
 		slots_number: out data port;
 		car_moved: in event port;
+	PROPERTIES
+		Priority => 40;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
 
 end car_moved_thread;
 
@@ -176,7 +223,11 @@ THREAD calculate_price
 	FEATURES
 		plate_number: in data port;
 		calculated_price: out data port;
-
+	PROPERTIES
+		Priority => 100;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 20 ms .. 30 ms;
+		Deadline => 1000ms;
 end calculate_price;
 
 THREAD IMPLEMENTATION calculate_price.impl
@@ -186,6 +237,11 @@ THREAD open_gate_out_thread
 	FEATURES
 		parking_paid: in event port;
 		open_gate_out: out event port;
+	PROPERTIES
+		Priority => 60;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
 end open_gate_out_thread;
 
 THREAD IMPLEMENTATION open_gate_out_thread.impl
@@ -195,6 +251,11 @@ THREAD car_passed_exit_thread
 	FEATURES
 		car_on_loop: in event port;	
 		close_gate: out event port;
+	PROPERTIES
+		Priority => 70;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1 ms .. 3 ms;
+		Deadline => 100ms;
 end car_passed_exit_thread;
 
 THREAD IMPLEMENTATION car_passed_exit_thread.impl
