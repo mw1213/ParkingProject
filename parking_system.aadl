@@ -1,7 +1,7 @@
 package parking_system
 public
-	with cheddar_properties;
 	with deployment;
+	with Base_Types;
 
 	SYSTEM parking
 	end parking;
@@ -32,8 +32,6 @@ public
 		connections
 			parking_simple_new_connection: port main.open_gate_out -> gate_out.open_gate;
 			parking_simple_new_connection2: port main.open_gate_in -> gate_in.open_gate;
-			parking_simple_new_connection3: port main.open_gate_out -> gate_out.open_gate;
-			parking_simple_new_connection4: port main.open_gate_in -> gate_in.open_gate;
 			parking_simple_new_connection5: port inductive_loop_in.car_on_loop -> main.car_on_loop_in;
 			parking_simple_new_connection6: port inductive_loop_out.car_on_loop -> main.car_on_loop_out;
 			parking_simple_new_connection7: port main.recognise_plates_out -> camera_out.recognise_plates;
@@ -71,7 +69,7 @@ public
 	DEVICE capacity_board
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
-			open_slots: in data port;
+			open_slots: in data port Base_Types::String;
 		PROPERTIES
 			Compute_Execution_Time => 5ms .. 10ms;
 			Deadline => 20ms;
@@ -94,7 +92,7 @@ public
 	DEVICE camera
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
-			plates_data: out data port;
+			plates_data: out data port Base_Types::String;
 			recognise_plates: in event port;
 		PROPERTIES
 			Compute_Execution_Time => 20ms .. 40ms;
@@ -114,7 +112,7 @@ public
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
 
-			parking_price: in data port;
+			parking_price: in data port Base_Types::String;
 			parking_paid: out event port;
 		PROPERTIES
 			Compute_Execution_Time => 10000ms .. 120000ms;
@@ -161,7 +159,7 @@ public
 
 	THREAD plates_data_thread
 		FEATURES
-			plates_data_in: in data port;
+			plates_data_in: in data port Base_Types::String;
 			open_gate_in: out event port;
 		PROPERTIES
 			Priority => 95;
@@ -189,7 +187,7 @@ public
 
 	THREAD car_parked_thread
 		FEATURES
-			slots_number: out data port;
+			slots_number: out data port Base_Types::String;
 			car_parked: in event port;
 		PROPERTIES
 			Priority => 40;
@@ -203,7 +201,7 @@ public
 
 	THREAD car_moved_thread
 		FEATURES
-			slots_number: out data port;
+			slots_number: out data port Base_Types::String;
 			car_moved: in event port;
 		PROPERTIES
 			Priority => 40;
@@ -218,8 +216,8 @@ public
 
 	THREAD calculate_price
 		FEATURES
-			plate_number: in data port;
-			calculated_price: out data port;
+			plate_number: in data port Base_Types::String;
+			calculated_price: out data port Base_Types::String;
 		PROPERTIES
 			Priority => 100;
 			Dispatch_Protocol => Aperiodic;
@@ -261,10 +259,10 @@ public
 	PROCESS parking_process
 
 		features
-			plates_data_in: in data port;
-			plates_data_out: in data port;
-			parking_price: out data port;
-			open_slots: out data port;
+			plates_data_in: in data port Base_Types::String;
+			plates_data_out: in data port Base_Types::String;
+			parking_price: out data port Base_Types::String;
+			open_slots: out data port Base_Types::String;
 
 			open_gate_in: out event port;
 			open_gate_out: out event port;
