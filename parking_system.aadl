@@ -69,7 +69,7 @@ public
 	DEVICE capacity_board
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
-			open_slots: in data port Base_Types::String;
+			open_slots: in data port Base_Types::Character[255];
 		PROPERTIES
 			Compute_Execution_Time => 5ms .. 10ms;
 			Deadline => 20ms;
@@ -92,7 +92,7 @@ public
 	DEVICE camera
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
-			plates_data: out data port Base_Types::String;
+			plates_data: out data port Base_Types::Character[255];
 			recognise_plates: in event port;
 		PROPERTIES
 			Compute_Execution_Time => 20ms .. 40ms;
@@ -112,7 +112,7 @@ public
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
 
-			parking_price: in data port Base_Types::String;
+			parking_price: in data port Base_Types::Character[255];
 			parking_paid: out event port;
 		PROPERTIES
 			Compute_Execution_Time => 10000ms .. 120000ms;
@@ -159,7 +159,7 @@ public
 
 	THREAD plates_data_thread
 		FEATURES
-			plates_data_in: in data port Base_Types::String;
+			plates_data_in: in data port Base_Types::Character[255];
 			open_gate_in: out event port;
 		PROPERTIES
 			Priority => 95;
@@ -187,7 +187,7 @@ public
 
 	THREAD car_parked_thread
 		FEATURES
-			slots_number: out data port Base_Types::String;
+			slots_number: out data port Base_Types::Character[255];
 			car_parked: in event port;
 		PROPERTIES
 			Priority => 40;
@@ -201,7 +201,7 @@ public
 
 	THREAD car_moved_thread
 		FEATURES
-			slots_number: out data port Base_Types::String;
+			slots_number: out data port Base_Types::Character[255];
 			car_moved: in event port;
 		PROPERTIES
 			Priority => 40;
@@ -216,8 +216,8 @@ public
 
 	THREAD calculate_price
 		FEATURES
-			plate_number: in data port Base_Types::String;
-			calculated_price: out data port Base_Types::String;
+			plate_number: in data port Base_Types::Character[255];
+			calculated_price: out data port Base_Types::Character[255];
 		PROPERTIES
 			Priority => 100;
 			Dispatch_Protocol => Aperiodic;
@@ -259,10 +259,10 @@ public
 	PROCESS parking_process
 
 		features
-			plates_data_in: in data port Base_Types::String;
-			plates_data_out: in data port Base_Types::String;
-			parking_price: out data port Base_Types::String;
-			open_slots: out data port Base_Types::String;
+			plates_data_in: in data port Base_Types::Character[255];
+			plates_data_out: in data port Base_Types::Character[255];
+			parking_price: out data port Base_Types::Character[255];
+			open_slots: out data port Base_Types::Character[255];
 
 			open_gate_in: out event port;
 			open_gate_out: out event port;
