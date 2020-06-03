@@ -71,7 +71,7 @@ end parking.simple;
 	DEVICE capacity_board
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
-			open_slots: in data port Base_Types::Character[255];
+			open_slots: in data port Base_Types::Integer;
 		PROPERTIES
 			Compute_Execution_Time => 5ms .. 10ms;
 			Deadline => 20ms;
@@ -94,7 +94,7 @@ end parking.simple;
 	DEVICE camera
 	FEATURES
 		VME: REQUIRES BUS ACCESS VME;
-		plates_data: out data port Base_Types::Character[255];
+		plates_data: out data port Base_Types::Integer;
 		recognise_plates: in event port;
 		plates_data_event: out event port;
 	properties
@@ -115,7 +115,7 @@ end camera;
 		FEATURES
 			VME: REQUIRES BUS ACCESS VME;
 
-			parking_price: in data port Base_Types::Character[255];
+			parking_price: in data port Base_Types::Integer;
 			parking_paid: out event port;
 		PROPERTIES
 			Compute_Execution_Time => 10000ms .. 120000ms;
@@ -130,144 +130,246 @@ end camera;
 			Deadline => 20ms;
 	end inductive_loop;
 
+
 -- od tego miejsca procesy i wątki dla parkingu
 	THREAD inductive_loop_in_thread
 		FEATURES
 			car_on_loop: in event port;
 			recognize_plates_in: out event port;
+	end inductive_loop_in_thread;
+	
+	THREAD IMPLEMENTATION inductive_loop_in_thread.impl
+		CALLS
+			sub: {
+				startPlatesRecognition: SUBPROGRAM startPlatesRecognitionIn;
+			};
+		CONNECTIONS
+			inductive_loop_in_thread_impl_new_connection: port startPlatesRecognition.recognize_plates -> recognize_plates_in;
 		PROPERTIES
 			Priority => 70;
 			Dispatch_Protocol => Aperiodic;
 			Compute_Execution_Time => 1ms .. 3ms;
 			Deadline => 100ms;
-
-	end inductive_loop_in_thread;
-
-	THREAD IMPLEMENTATION inductive_loop_in_thread.impl
-	end inductive_loop_in_thread.impl;
-
+	END inductive_loop_in_thread.impl;
+	
+	SUBPROGRAM startPlatesRecognitionIn
+		FEATURES
+			recognize_plates: out event port;
+	end startPlatesRecognitionIn;
+	
 	THREAD inductive_loop_out_thread
 		FEATURES
 			car_on_loop: in event port;
 			recognize_plates_out: out event port;
+	end inductive_loop_out_thread;
+
+	THREAD IMPLEMENTATION inductive_loop_out_thread.impl
+		CALLS
+			sub: {
+				startPlatesRecognition: SUBPROGRAM startPlatesRecognitionOut;
+			};
+		CONNECTIONS
+			inductive_loop_out_thread_impl_new_connection: port startPlatesRecognition.recognize_plates -> recognize_plates_out;
 		PROPERTIES
 			Priority => 70;
 			Dispatch_Protocol => Aperiodic;
 			Compute_Execution_Time => 1ms .. 3ms;
 			Deadline => 100ms;
-	end inductive_loop_out_thread;
+	END inductive_loop_out_thread.impl;
 
-	THREAD IMPLEMENTATION inductive_loop_out_thread.impl
-	end inductive_loop_out_thread.impl;
+	SUBPROGRAM startPlatesRecognitionOut
+		FEATURES
+			recognize_plates: out event port;
+	end startPlatesRecognitionOut;
 
 	THREAD plates_data_thread
 		FEATURES
-			plates_data_in: in data port Base_Types::Character[255];
+			plates_data_in: in data port Base_Types::Integer;
 			plates_data_in_event: in event port;
 			open_gate_in: out event port;
-		PROPERTIES
-			Priority => 95;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 20ms .. 30ms;
-			Deadline => 1000ms;
 	end plates_data_thread;
 
 	THREAD IMPLEMENTATION plates_data_thread.impl
-	end plates_data_thread.impl;
+		CALLS
+			sub: {
+				getPlateNumberFromVideo: SUBPROGRAM getPlateNumberFromVideo;
+			};
+	connections
+		plates_data_thread_impl_new_connection: port getPlateNumberFromVideo.open_gate_in -> open_gate_in;
+		plates_data_thread_impl_new_connection2: parameter plates_data_in -> getPlateNumberFromVideo.plates_data_in;
+	properties
+		Priority => 95;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 20ms .. 30ms;
+		Deadline => 1000ms;
+	END plates_data_thread.impl;
+	
+	SUBPROGRAM getPlateNumberFromVideo
+		FEATURES
+			plates_data_in: in parameter Base_Types::Integer;
+			open_gate_in: out event port;
+	end getPlateNumberFromVideo;
 
 	THREAD car_passed_entry_thread
 		FEATURES
 			car_on_loop: in event port;
 			close_gate: out event port;
-		PROPERTIES
-			Priority => 70;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 1ms .. 3ms;
-			Deadline => 100ms;
 	end car_passed_entry_thread;
 
 	THREAD IMPLEMENTATION car_passed_entry_thread.impl
+		CALLS
+			sub: {
+				startGateClosingIn: SUBPROGRAM startGateClosingIn;
+			};
+	connections
+		car_passed_entry_thread_impl_new_connection: port startGateClosingIn.close_gate_in -> close_gate;
+	properties
+		Priority => 70;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1ms .. 3ms;
+		Deadline => 100ms;
 	end car_passed_entry_thread.impl;
+	
+	SUBPROGRAM startGateClosingIn
+		FEATURES
+			close_gate_in: out event port;	
+	end startGateClosingIn;
 
 	THREAD car_parked_thread
 		FEATURES
-			slots_number: out data port Base_Types::Character[255];
+			slots_number: out data port Base_Types::Integer;
 			car_parked: in event port;
-		PROPERTIES
-			Priority => 40;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 1ms .. 3ms;
-			Deadline => 100ms;
 	end car_parked_thread;
 
 	THREAD IMPLEMENTATION car_parked_thread.impl
-	end car_parked_thread.impl;
+	CALLS
+		sub: {
+			incrementAvailableSlots: SUBPROGRAM incrementAvailableSlots;
+		};
+	connections
+		car_parked_thread_impl_new_connection: parameter incrementAvailableSlots.slots_number -> slots_number;
+	properties
+		Priority => 40;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1ms .. 3ms;
+		Deadline => 100ms;
+end car_parked_thread.impl;
+	
+	SUBPROGRAM incrementAvailableSlots
+		FEATURES
+			slots_number: out parameter Base_Types::Integer;	
+	end incrementAvailableSlots;
 
 	THREAD car_moved_thread
 		FEATURES
-			slots_number: out data port Base_Types::Character[255];
+			slots_number: out data port Base_Types::Integer;
 			car_moved: in event port;
-		PROPERTIES
-			Priority => 40;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 1ms .. 3ms;
-			Deadline => 100ms;
-
 	end car_moved_thread;
 
 	THREAD IMPLEMENTATION car_moved_thread.impl
-	end car_moved_thread.impl;
+	CALLS
+		sub: {
+			decrementAvailableSlots: SUBPROGRAM decrementAvailableSlots;
+		};
+	connections
+		car_moved_thread_impl_new_connection: parameter decrementAvailableSlots.slots_number -> slots_number;
+	properties
+		Priority => 40;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1ms .. 3ms;
+		Deadline => 100ms;
+end car_moved_thread.impl;
+	
+	SUBPROGRAM decrementAvailableSlots
+		FEATURES
+			slots_number: out parameter Base_Types::Integer;	
+	end decrementAvailableSlots;
 
 	THREAD calculate_price
 		FEATURES
 			plate_number_event: in event port;
-			plate_number: in data port Base_Types::Character[255];
-			calculated_price: out data port Base_Types::Character[255];
-		PROPERTIES
-			Priority => 100;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 20ms .. 30ms;
-			Deadline => 1000ms;
+			plate_number: in data port Base_Types::Integer;
+			calculated_price: out data port Base_Types::Integer;
 	end calculate_price;
 
 	THREAD IMPLEMENTATION calculate_price.impl
-	end calculate_price.impl;
+	CALLS
+		sub: {
+			calculatePriceForCarWithPlate: SUBPROGRAM calculatePriceForCarWithPlate;
+		};
+	connections
+		calculate_price_impl_new_connection: parameter plate_number -> calculatePriceForCarWithPlate.plate_number;
+		calculate_price_impl_new_connection2: parameter calculatePriceForCarWithPlate.calculated_price -> calculated_price;
+	properties
+		Priority => 100;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 20ms .. 30ms;
+		Deadline => 1000ms;
+end calculate_price.impl;
+	
+	SUBPROGRAM calculatePriceForCarWithPlate
+		FEATURES
+			plate_number: in parameter Base_Types::Integer;
+			calculated_price: out parameter Base_Types::Integer;
+	end calculatePriceForCarWithPlate;
 
 	THREAD open_gate_out_thread
 		FEATURES
 			parking_paid: in event port;
 			open_gate_out: out event port;
-		PROPERTIES
-			Priority => 60;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 1ms .. 3ms;
-			Deadline => 100ms;
 	end open_gate_out_thread;
 
 	THREAD IMPLEMENTATION open_gate_out_thread.impl
-	end open_gate_out_thread.impl;
+	CALLS
+		sub: {
+			startGateOpeningOut: SUBPROGRAM startGateOpeningOut;
+		};
+	connections
+		open_gate_out_thread_impl_new_connection: port startGateOpeningOut.open_gate_out -> open_gate_out;
+	properties
+		Priority => 60;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1ms .. 3ms;
+		Deadline => 100ms;
+end open_gate_out_thread.impl;
+	
+	SUBPROGRAM startGateOpeningOut
+		FEATURES
+			open_gate_out: out event port;	
+	end startGateOpeningOut;
 
 	THREAD car_passed_exit_thread
 		FEATURES
 			car_on_loop: in event port;
 			close_gate: out event port;
-		PROPERTIES
-			Priority => 70;
-			Dispatch_Protocol => Aperiodic;
-			Compute_Execution_Time => 1ms .. 3ms;
-			Deadline => 100ms;
 	end car_passed_exit_thread;
 
 	THREAD IMPLEMENTATION car_passed_exit_thread.impl
-	end car_passed_exit_thread.impl;
+	CALLS
+		sub: {
+			startGateClosingOut: SUBPROGRAM startGateClosingOut;
+		};
+	connections
+		car_passed_exit_thread_impl_new_connection: port startGateClosingOut.close_gate_out -> close_gate;
+	properties
+		Priority => 70;
+		Dispatch_Protocol => Aperiodic;
+		Compute_Execution_Time => 1ms .. 3ms;
+		Deadline => 100ms;
+end car_passed_exit_thread.impl;
+	
+	SUBPROGRAM startGateClosingOut
+		FEATURES
+			close_gate_out: out event port;	
+	end startGateClosingOut;
 
 	PROCESS parking_process
 
 	features
-		plates_data_in: in data port Base_Types::Character[255];
-		plates_data_out: in data port Base_Types::Character[255];
-		parking_price: out data port Base_Types::Character[255];
-		open_slots: out data port Base_Types::Character[255];
+		plates_data_in: in data port Base_Types::Integer;
+		plates_data_out: in data port Base_Types::Integer;
+		parking_price: out data port Base_Types::Integer;
+		open_slots: out data port Base_Types::Integer;
 
 		open_gate_in: out event port;
 		open_gate_out: out event port;
@@ -302,6 +404,9 @@ end parking_process;
 		calculate_price: THREAD calculate_price.impl;
 		open_gate_out_thread: THREAD open_gate_out_thread.impl;
 		car_passed_exit_thread: THREAD car_passed_exit_thread.impl;
+
+--		receive: THREAD receiver.impl;
+
 	connections
 		parking_process_impl_new_connection: port car_on_loop_in -> inductive_loop_in_thread.car_on_loop;
 		parking_process_impl_new_connection2: port inductive_loop_in_thread.recognize_plates_in -> recognise_plates_in;
@@ -314,7 +419,6 @@ end parking_process;
 		parking_process_impl_new_connection9: port car_parked_thread.slots_number -> open_slots;
 		parking_process_impl_new_connection10: port car_moved_thread.slots_number -> open_slots;
 		parking_process_impl_new_connection11: port car_on_loop_out -> inductive_loop_out_thread.car_on_loop;
-
 		parking_process_impl_new_connection13: port calculate_price.calculated_price -> parking_price;
 		parking_process_impl_new_connection14: port plates_data_out -> calculate_price.plate_number;
 		parking_process_impl_new_connection15: port car_on_gate_loop_out -> car_passed_exit_thread.car_on_loop;
