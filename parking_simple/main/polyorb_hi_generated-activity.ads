@@ -9,6 +9,7 @@ pragma Style_Checks
 with PolyORB_HI.Errors;
 with PolyORB_HI_Generated.Deployment;
 with Ada.Real_Time;
+with System;
 with PolyORB_HI.Aperiodic_Task;
 pragma Elaborate_All (PolyORB_HI.Aperiodic_Task);
 with PolyORB_HI_Generated.Types;
@@ -99,7 +100,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_inductive_loop_in_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_inductive_loop_in_thread_K,
-      Task_Priority => 70,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_inductive_loop_in_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -191,7 +192,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_plates_data_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_plates_data_thread_K,
-      Task_Priority => 95,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_plates_data_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -280,7 +281,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_car_passed_entry_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_car_passed_entry_thread_K,
-      Task_Priority => 70,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_car_passed_entry_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -368,7 +369,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_car_parked_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_car_parked_thread_K,
-      Task_Priority => 40,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_car_parked_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -456,7 +457,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_car_moved_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_car_moved_thread_K,
-      Task_Priority => 40,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_car_moved_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -545,7 +546,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_inductive_loop_out_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_inductive_loop_out_thread_K,
-      Task_Priority => 70,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_inductive_loop_out_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -635,7 +636,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_calculate_price_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_calculate_price_K,
-      Task_Priority => 100,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_calculate_price_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -724,7 +725,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_open_gate_out_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_open_gate_out_thread_K,
-      Task_Priority => 60,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_open_gate_out_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);
@@ -813,7 +814,7 @@ package PolyORB_HI_Generated.Activity is
    new PolyORB_HI.Aperiodic_Task
      (Port_Type => parking_system_car_passed_exit_thread_impl_Port_Type,
       Entity => PolyORB_HI_Generated.Deployment.main_car_passed_exit_thread_K,
-      Task_Priority => 70,
+      Task_Priority => System.Default_Priority,
       Task_Stack_Size => 100000,
       Job => parking_system_car_passed_exit_thread_Job,
       Wait_For_Incoming_Events => Wait_For_Incoming_Events);

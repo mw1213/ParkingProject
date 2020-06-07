@@ -7,7 +7,6 @@ pragma Style_Checks
  ("NM32766");
 
 with PolyORB_HI.Port_Kinds;
-with System;
 with PolyORB_HI_Generated.Marshallers;
 with PolyORB_HI_Generated.Transport;
 with PolyORB_HI.Thread_Interrogators;
