@@ -144,7 +144,7 @@ end camera;
 			inductive_loop_in_thread_impl_new_connection: port startPlatesRecognition.recognize_plates -> recognize_plates_in;
 		PROPERTIES
 			Priority => 70;
-			Dispatch_Protocol => Aperiodic;
+			Dispatch_Protocol => Periodic; Period => 1000ms;
 			Compute_Execution_Time => 1ms .. 3ms;
 			Deadline => 100ms;
 	END inductive_loop_in_thread.impl;
@@ -152,6 +152,9 @@ end camera;
 	SUBPROGRAM startPlatesRecognitionIn
 		FEATURES
 			recognize_plates: out event port;
+					properties
+			Source_Language => (Ada95);
+			Source_Name => "radar.controller";
 	end startPlatesRecognitionIn;
 	
 	THREAD inductive_loop_out_thread
@@ -169,7 +172,7 @@ end camera;
 			inductive_loop_out_thread_impl_new_connection: port startPlatesRecognition.recognize_plates -> recognize_plates_out;
 		PROPERTIES
 			Priority => 70;
-			Dispatch_Protocol => Aperiodic;
+			Dispatch_Protocol => Periodic; Period => 1000ms;
 			Compute_Execution_Time => 1ms .. 3ms;
 			Deadline => 100ms;
 	END inductive_loop_out_thread.impl;
@@ -177,6 +180,9 @@ end camera;
 	SUBPROGRAM startPlatesRecognitionOut
 		FEATURES
 			recognize_plates: out event port;
+		properties
+			Source_Language => (Ada95);
+			Source_Name => "parking.startPlatesRecognitionOut";
 	end startPlatesRecognitionOut;
 
 	THREAD plates_data_thread
@@ -196,7 +202,7 @@ end camera;
 		plates_data_thread_impl_new_connection2: parameter plates_data_in -> getPlateNumberFromVideo.plates_data_in;
 	properties
 		Priority => 95;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 20ms .. 30ms;
 		Deadline => 1000ms;
 	END plates_data_thread.impl;
@@ -205,6 +211,9 @@ end camera;
 		FEATURES
 			plates_data_in: in parameter Base_Types::Integer;
 			open_gate_in: out event port;
+		properties
+			Source_Language => (Ada95);
+			Source_Name => "parking.getPlateNumberFromVideo";
 	end getPlateNumberFromVideo;
 
 	THREAD car_passed_entry_thread
@@ -222,7 +231,7 @@ end camera;
 		car_passed_entry_thread_impl_new_connection: port startGateClosingIn.close_gate_in -> close_gate;
 	properties
 		Priority => 70;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
 	end car_passed_entry_thread.impl;
@@ -247,7 +256,7 @@ end camera;
 		car_parked_thread_impl_new_connection: parameter incrementAvailableSlots.slots_number -> slots_number;
 	properties
 		Priority => 40;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
 end car_parked_thread.impl;
@@ -272,7 +281,7 @@ end car_parked_thread.impl;
 		car_moved_thread_impl_new_connection: parameter decrementAvailableSlots.slots_number -> slots_number;
 	properties
 		Priority => 40;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
 end car_moved_thread.impl;
@@ -299,7 +308,7 @@ end car_moved_thread.impl;
 		calculate_price_impl_new_connection2: parameter calculatePriceForCarWithPlate.calculated_price -> calculated_price;
 	properties
 		Priority => 70;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 20ms .. 30ms;
 		Deadline => 1000ms;
 end calculate_price.impl;
@@ -325,7 +334,7 @@ end calculate_price.impl;
 		open_gate_out_thread_impl_new_connection: port startGateOpeningOut.open_gate_out -> open_gate_out;
 	properties
 		Priority => 60;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
 end open_gate_out_thread.impl;
@@ -350,7 +359,7 @@ end open_gate_out_thread.impl;
 		car_passed_exit_thread_impl_new_connection: port startGateClosingOut.close_gate_out -> close_gate;
 	properties
 		Priority => 70;
-		Dispatch_Protocol => Aperiodic;
+		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
 end car_passed_exit_thread.impl;

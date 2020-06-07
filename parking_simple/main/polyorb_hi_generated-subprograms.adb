@@ -6,20 +6,14 @@
 pragma Style_Checks
  ("NM32766");
 
+with radar;
+with parking;
 
 package body PolyORB_HI_Generated.Subprograms is
 
-  ---------------------------------------------
-  -- parking_system_startPlatesRecognitionIn -- 
-  ---------------------------------------------
-
   procedure parking_system_startPlatesRecognitionIn
    (Status : in out PolyORB_HI_Generated.Subprograms.parking_system_startPlatesRecognitionIn_Status)
-  is
-    Nyi : exception;
-  begin
-    raise Nyi;
-  end parking_system_startPlatesRecognitionIn;
+   renames radar.controller;
 
   ---------------
   -- Put_Value -- 
@@ -93,18 +87,10 @@ package body PolyORB_HI_Generated.Subprograms is
     end case;
   end Get_Count;
 
-  --------------------------------------------
-  -- parking_system_getPlateNumberFromVideo -- 
-  --------------------------------------------
-
   procedure parking_system_getPlateNumberFromVideo
    (plates_data_in : PolyORB_HI_Generated.Types.Integer;
     Status : in out PolyORB_HI_Generated.Subprograms.parking_system_getPlateNumberFromVideo_Status)
-  is
-    Nyi : exception;
-  begin
-    raise Nyi;
-  end parking_system_getPlateNumberFromVideo;
+   renames parking.getPlateNumberFromVideo;
 
   ---------------
   -- Put_Value -- 
@@ -286,17 +272,9 @@ package body PolyORB_HI_Generated.Subprograms is
     raise Nyi;
   end parking_system_decrementAvailableSlots;
 
-  ----------------------------------------------
-  -- parking_system_startPlatesRecognitionOut -- 
-  ----------------------------------------------
-
   procedure parking_system_startPlatesRecognitionOut
    (Status : in out PolyORB_HI_Generated.Subprograms.parking_system_startPlatesRecognitionOut_Status)
-  is
-    Nyi : exception;
-  begin
-    raise Nyi;
-  end parking_system_startPlatesRecognitionOut;
+   renames parking.startPlatesRecognitionOut;
 
   ---------------
   -- Put_Value -- 

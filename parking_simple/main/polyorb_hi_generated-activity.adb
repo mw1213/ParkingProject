@@ -7,6 +7,7 @@ pragma Style_Checks
  ("NM32766");
 
 with PolyORB_HI.Port_Kinds;
+with System;
 with PolyORB_HI_Generated.Marshallers;
 with PolyORB_HI_Generated.Transport;
 with PolyORB_HI.Thread_Interrogators;
@@ -125,19 +126,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_inductive_loop_in_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : inductive_loop_in_thread
+  --  Periodic task : inductive_loop_in_thread
 
   -------------------------------------------------
   -- parking_system_inductive_loop_in_thread_Job -- 
   -------------------------------------------------
 
-  function parking_system_inductive_loop_in_thread_Job
-   (Port : parking_system_inductive_loop_in_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_inductive_loop_in_thread_Job return PolyORB_HI.Errors.Error_Kind is
     startPlatesRecognition_Status : PolyORB_HI_Generated.Subprograms.parking_system_startPlatesRecognitionIn_Status;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -297,20 +293,15 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_plates_data_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : plates_data_thread
+  --  Periodic task : plates_data_thread
 
   -------------------------------------------
   -- parking_system_plates_data_thread_Job -- 
   -------------------------------------------
 
-  function parking_system_plates_data_thread_Job
-   (Port : parking_system_plates_data_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_plates_data_thread_Job return PolyORB_HI.Errors.Error_Kind is
     plates_data_in_V : PolyORB_HI_Generated.Types.Integer;
     getPlateNumberFromVideo_Status : PolyORB_HI_Generated.Subprograms.parking_system_getPlateNumberFromVideo_Status;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -465,19 +456,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_car_passed_entry_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : car_passed_entry_thread
+  --  Periodic task : car_passed_entry_thread
 
   ------------------------------------------------
   -- parking_system_car_passed_entry_thread_Job -- 
   ------------------------------------------------
 
-  function parking_system_car_passed_entry_thread_Job
-   (Port : parking_system_car_passed_entry_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_car_passed_entry_thread_Job return PolyORB_HI.Errors.Error_Kind is
     startGateClosingIn_Status : PolyORB_HI_Generated.Subprograms.parking_system_startGateClosingIn_Status;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -620,19 +606,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_car_parked_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : car_parked_thread
+  --  Periodic task : car_parked_thread
 
   ------------------------------------------
   -- parking_system_car_parked_thread_Job -- 
   ------------------------------------------
 
-  function parking_system_car_parked_thread_Job
-   (Port : parking_system_car_parked_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_car_parked_thread_Job return PolyORB_HI.Errors.Error_Kind is
     slots_number_V : PolyORB_HI_Generated.Types.Integer;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -769,19 +750,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_car_moved_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : car_moved_thread
+  --  Periodic task : car_moved_thread
 
   -----------------------------------------
   -- parking_system_car_moved_thread_Job -- 
   -----------------------------------------
 
-  function parking_system_car_moved_thread_Job
-   (Port : parking_system_car_moved_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_car_moved_thread_Job return PolyORB_HI.Errors.Error_Kind is
     slots_number_V : PolyORB_HI_Generated.Types.Integer;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -918,19 +894,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_inductive_loop_out_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : inductive_loop_out_thread
+  --  Periodic task : inductive_loop_out_thread
 
   --------------------------------------------------
   -- parking_system_inductive_loop_out_thread_Job -- 
   --------------------------------------------------
 
-  function parking_system_inductive_loop_out_thread_Job
-   (Port : parking_system_inductive_loop_out_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_inductive_loop_out_thread_Job return PolyORB_HI.Errors.Error_Kind is
     startPlatesRecognition_Status : PolyORB_HI_Generated.Subprograms.parking_system_startPlatesRecognitionOut_Status;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -1089,20 +1060,15 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_calculate_price_Task.Next_Deadline);
 
-  --  Aperiodic task : calculate_price
+  --  Periodic task : calculate_price
 
   ----------------------------------------
   -- parking_system_calculate_price_Job -- 
   ----------------------------------------
 
-  function parking_system_calculate_price_Job
-   (Port : parking_system_calculate_price_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_calculate_price_Job return PolyORB_HI.Errors.Error_Kind is
     plate_number_V : PolyORB_HI_Generated.Types.Integer;
     calculated_price_V : PolyORB_HI_Generated.Types.Integer;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -1251,19 +1217,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_open_gate_out_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : open_gate_out_thread
+  --  Periodic task : open_gate_out_thread
 
   ---------------------------------------------
   -- parking_system_open_gate_out_thread_Job -- 
   ---------------------------------------------
 
-  function parking_system_open_gate_out_thread_Job
-   (Port : parking_system_open_gate_out_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_open_gate_out_thread_Job return PolyORB_HI.Errors.Error_Kind is
     startGateOpeningOut_Status : PolyORB_HI_Generated.Subprograms.parking_system_startGateOpeningOut_Status;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin
@@ -1406,19 +1367,14 @@ package body PolyORB_HI_Generated.Activity is
       Send => PolyORB_HI_Generated.Transport.Send,
       Next_Deadline => parking_system_car_passed_exit_thread_Task.Next_Deadline);
 
-  --  Aperiodic task : car_passed_exit_thread
+  --  Periodic task : car_passed_exit_thread
 
   -----------------------------------------------
   -- parking_system_car_passed_exit_thread_Job -- 
   -----------------------------------------------
 
-  function parking_system_car_passed_exit_thread_Job
-   (Port : parking_system_car_passed_exit_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind
-  is
+  function parking_system_car_passed_exit_thread_Job return PolyORB_HI.Errors.Error_Kind is
     startGateClosingOut_Status : PolyORB_HI_Generated.Subprograms.parking_system_startGateClosingOut_Status;
-    pragma Unreferenced
-     (Port);
     Error_Ü : PolyORB_HI.Errors.Error_Kind;
     use type PolyORB_HI.Errors.Error_Kind;
   begin

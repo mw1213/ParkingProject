@@ -15,7 +15,8 @@ with "/home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/inclu
 project main is
   for Source_Dirs use
    (".",
-    "/home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/include/ocarina/runtime/polyorb-hi-ada") & external_as_list("ADA_INCLUDE_PATH", ":");
+    "/home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/include/ocarina/runtime/polyorb-hi-ada",
+    "/home/agata/rzeczywistego/projekty/ParkingSystem/ParkingProject/") & external_as_list("ADA_INCLUDE_PATH", ":");
 
   for Main use ("main.adb");
 

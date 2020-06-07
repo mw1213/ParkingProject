@@ -9,9 +9,8 @@ pragma Style_Checks
 with PolyORB_HI.Errors;
 with PolyORB_HI_Generated.Deployment;
 with Ada.Real_Time;
-with System;
-with PolyORB_HI.Aperiodic_Task;
-pragma Elaborate_All (PolyORB_HI.Aperiodic_Task);
+with PolyORB_HI.Periodic_Task;
+pragma Elaborate_All (PolyORB_HI.Periodic_Task);
 with PolyORB_HI_Generated.Types;
 
 package PolyORB_HI_Generated.Activity is
@@ -90,20 +89,20 @@ package PolyORB_HI_Generated.Activity is
   --  END: Entities used by all instances of component 
   --  inductive_loop_in_thread.impl
 
-  --  Aperiodic task : inductive_loop_in_thread
+  --  Periodic task : inductive_loop_in_thread
 
-  function parking_system_inductive_loop_in_thread_Job
-   (Port : parking_system_inductive_loop_in_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_inductive_loop_in_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_inductive_loop_in_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_inductive_loop_in_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_inductive_loop_in_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_inductive_loop_in_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 70,
       Task_Stack_Size => 100000,
-      Job => parking_system_inductive_loop_in_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_inductive_loop_in_thread_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  plates_data_thread.impl
@@ -182,20 +181,20 @@ package PolyORB_HI_Generated.Activity is
   --  END: Entities used by all instances of component 
   --  plates_data_thread.impl
 
-  --  Aperiodic task : plates_data_thread
+  --  Periodic task : plates_data_thread
 
-  function parking_system_plates_data_thread_Job
-   (Port : parking_system_plates_data_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_plates_data_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_plates_data_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_plates_data_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_plates_data_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_plates_data_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Priority => 95,
       Task_Stack_Size => 100000,
-      Job => parking_system_plates_data_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_plates_data_thread_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  car_passed_entry_thread.impl
@@ -271,20 +270,20 @@ package PolyORB_HI_Generated.Activity is
   --  END: Entities used by all instances of component 
   --  car_passed_entry_thread.impl
 
-  --  Aperiodic task : car_passed_entry_thread
+  --  Periodic task : car_passed_entry_thread
 
-  function parking_system_car_passed_entry_thread_Job
-   (Port : parking_system_car_passed_entry_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_car_passed_entry_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_car_passed_entry_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_car_passed_entry_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_car_passed_entry_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_car_passed_entry_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 70,
       Task_Stack_Size => 100000,
-      Job => parking_system_car_passed_entry_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_car_passed_entry_thread_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  car_parked_thread.impl
@@ -359,20 +358,20 @@ package PolyORB_HI_Generated.Activity is
 
   --  END: Entities used by all instances of component car_parked_thread.impl
 
-  --  Aperiodic task : car_parked_thread
+  --  Periodic task : car_parked_thread
 
-  function parking_system_car_parked_thread_Job
-   (Port : parking_system_car_parked_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_car_parked_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_car_parked_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_car_parked_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_car_parked_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_car_parked_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 40,
       Task_Stack_Size => 100000,
-      Job => parking_system_car_parked_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_car_parked_thread_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  car_moved_thread.impl
@@ -447,20 +446,20 @@ package PolyORB_HI_Generated.Activity is
 
   --  END: Entities used by all instances of component car_moved_thread.impl
 
-  --  Aperiodic task : car_moved_thread
+  --  Periodic task : car_moved_thread
 
-  function parking_system_car_moved_thread_Job
-   (Port : parking_system_car_moved_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_car_moved_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_car_moved_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_car_moved_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_car_moved_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_car_moved_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 40,
       Task_Stack_Size => 100000,
-      Job => parking_system_car_moved_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_car_moved_thread_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  inductive_loop_out_thread.impl
@@ -536,20 +535,20 @@ package PolyORB_HI_Generated.Activity is
   --  END: Entities used by all instances of component 
   --  inductive_loop_out_thread.impl
 
-  --  Aperiodic task : inductive_loop_out_thread
+  --  Periodic task : inductive_loop_out_thread
 
-  function parking_system_inductive_loop_out_thread_Job
-   (Port : parking_system_inductive_loop_out_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_inductive_loop_out_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_inductive_loop_out_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_inductive_loop_out_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_inductive_loop_out_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_inductive_loop_out_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 70,
       Task_Stack_Size => 100000,
-      Job => parking_system_inductive_loop_out_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_inductive_loop_out_thread_Job);
 
   --  BEGIN: Entities used by all instances of component calculate_price.impl
 
@@ -626,20 +625,20 @@ package PolyORB_HI_Generated.Activity is
 
   --  END: Entities used by all instances of component calculate_price.impl
 
-  --  Aperiodic task : calculate_price
+  --  Periodic task : calculate_price
 
-  function parking_system_calculate_price_Job
-   (Port : parking_system_calculate_price_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_calculate_price_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_calculate_price_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_calculate_price_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_calculate_price_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_calculate_price_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Priority => 70,
       Task_Stack_Size => 100000,
-      Job => parking_system_calculate_price_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_calculate_price_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  open_gate_out_thread.impl
@@ -715,20 +714,20 @@ package PolyORB_HI_Generated.Activity is
   --  END: Entities used by all instances of component 
   --  open_gate_out_thread.impl
 
-  --  Aperiodic task : open_gate_out_thread
+  --  Periodic task : open_gate_out_thread
 
-  function parking_system_open_gate_out_thread_Job
-   (Port : parking_system_open_gate_out_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_open_gate_out_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_open_gate_out_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_open_gate_out_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_open_gate_out_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_open_gate_out_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 60,
       Task_Stack_Size => 100000,
-      Job => parking_system_open_gate_out_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_open_gate_out_thread_Job);
 
   --  BEGIN: Entities used by all instances of component 
   --  car_passed_exit_thread.impl
@@ -804,19 +803,19 @@ package PolyORB_HI_Generated.Activity is
   --  END: Entities used by all instances of component 
   --  car_passed_exit_thread.impl
 
-  --  Aperiodic task : car_passed_exit_thread
+  --  Periodic task : car_passed_exit_thread
 
-  function parking_system_car_passed_exit_thread_Job
-   (Port : parking_system_car_passed_exit_thread_impl_Port_Type)
-   return PolyORB_HI.Errors.Error_Kind;
+  function parking_system_car_passed_exit_thread_Job return PolyORB_HI.Errors.Error_Kind;
 
   package parking_system_car_passed_exit_thread_Task is
-   new PolyORB_HI.Aperiodic_Task
-     (Port_Type => parking_system_car_passed_exit_thread_impl_Port_Type,
-      Entity => PolyORB_HI_Generated.Deployment.main_car_passed_exit_thread_K,
-      Task_Priority => System.Default_Priority,
+   new PolyORB_HI.Periodic_Task
+     (Entity => PolyORB_HI_Generated.Deployment.main_car_passed_exit_thread_K,
+      Task_Period => Ada.Real_Time.Milliseconds
+       (1000),
+      Task_Deadline => Ada.Real_Time.Milliseconds
+       (100),
+      Task_Priority => 70,
       Task_Stack_Size => 100000,
-      Job => parking_system_car_passed_exit_thread_Job,
-      Wait_For_Incoming_Events => Wait_For_Incoming_Events);
+      Job => parking_system_car_passed_exit_thread_Job);
 
 end PolyORB_HI_Generated.Activity;

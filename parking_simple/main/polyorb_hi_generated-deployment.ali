@@ -1,0 +1,97 @@
+V "GNAT Lib v7"
+A -O1
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -gnata
+A -gnato
+A -gnatA
+P ZX
+
+RN
+RR NO_ALLOCATORS
+RR NO_DISPATCH
+RR NO_IO
+RR NO_RECURSION
+RR NO_UNCHECKED_ACCESS
+RR NO_UNCHECKED_DEALLOCATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+
+U polyorb_hi_generated.deployment%s  polyorb_hi_generated-deployment.ads  561eb166 NE OO PR PK
+W polyorb_hi_generated%s  polyorb_hi_generated.ads  polyorb_hi_generated.ali
+W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+
+D polyorb_hi_generated.ads  20170204221544 32a22d97 polyorb_hi_generated%s
+D polyorb_hi_generated-deployment.ads  20200607140027 64bc9cf1 polyorb_hi_generated.deployment%s
+D system.ads		20170510173650 4635ec04 system%s
+D s-unstyp.ads		20160502101423 34867c83 system.unsigned_types%s
+D /home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/include/ocarina/runtime/polyorb-hi-ada/native.adc  20170204221544 00000000
+D /home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20170204221544 00000000
+X 1 polyorb_hi_generated.ads
+34K9*PolyORB_HI_Generated 38e25 2|10r9 298r12 356r5
+X 2 polyorb_hi_generated-deployment.ads
+10K30*Deployment 1|34k9 2|298r33 356l26 356e36
+16E8*Node_Type 17e12 21r7 27r7 37r4 37r20 37r39 55r22 104r9
+17n5*main_K{16E8} 22r5 52r7 56r4 109r8 111r8 113r8 115r8 117r8 119r8 121r8
+. 123r8 125r8
+29i3*Max_Node_Image_Size{integer} 40r23
+36E11*UT_Deployment_Main_Node_Type_Range{16E8} 47r11
+39I11*UT_Deployment_Main_1_Max_Node_Image_Size{integer} 44r7
+42A11*UT_Deployment_Main_Node_Image_Component{string}<integer> 48r9
+46A8*UT_Deployment_Main_Node_Image_Array(42A11)<16E8> 50r25 51r4
+50a3*Node_Image{46A8}
+55e3*My_Node{16E8}
+60E8*Entity_Type 69e35 73r7 95r7 100r4 100r22 100r43 246r9
+61n5*main_inductive_loop_in_thread_K{60E8} 74r5 108r7 147r7 251r8 253r8
+62n5*main_plates_data_thread_K{60E8} 76r5 110r7 149r7 255r8 257r8 259r8
+63n5*main_car_passed_entry_thread_K{60E8} 78r5 112r7 151r7 261r8 263r8
+64n5*main_car_parked_thread_K{60E8} 80r5 114r7 153r7 265r8 267r8
+65n5*main_car_moved_thread_K{60E8} 82r5 116r7 155r7 269r8 271r8
+66n5*main_inductive_loop_out_thread_K{60E8} 84r5 118r7 157r7 273r8 275r8
+67n5*main_calculate_price_K{60E8} 86r5 120r7 159r7 277r8 279r8 281r8
+68n5*main_open_gate_out_thread_K{60E8} 88r5 122r7 161r7 283r8 285r8
+69n5*main_car_passed_exit_thread_K{60E8} 90r5 124r7 163r7 287r8 289r8
+99E11*UT_Deployment_Main_Entity_Type_Range{60E8} 103r11 142r11
+102A8*UT_Deployment_Main_Entity_Table_Array(16E8)<60E8> 106r27 107r4
+106a3*Entity_Table{102A8}
+127i3*Max_Entity_Image_Size{integer} 135r23
+134I11*UT_Deployment_Main_1_Max_Entity_Image_Size{integer} 139r7
+137A11*UT_Deployment_Main_Entity_Image_Component{string}<integer> 143r9
+141A8*UT_Deployment_Main_Entity_Image_Array(137A11)<60E8> 145r27 146r4
+145a3*Entity_Image{141A8}
+169E8*Port_Type 189e46 193r7 237r7 242r4 242r20 242r39
+170n5*main_inductive_loop_in_thread_car_on_loop_K{169E8} 194r5 250r7 308r7
+171n5*main_inductive_loop_in_thread_recognize_plates_in_K{169E8} 196r5 252r7
+. 310r7
+172n5*main_plates_data_thread_plates_data_in_K{169E8} 198r5 254r7 312r7
+173n5*main_plates_data_thread_plates_data_in_event_K{169E8} 200r5 256r7 314r7
+174n5*main_plates_data_thread_open_gate_in_K{169E8} 202r5 258r7 316r7
+175n5*main_car_passed_entry_thread_car_on_loop_K{169E8} 204r5 260r7 318r7
+176n5*main_car_passed_entry_thread_close_gate_K{169E8} 206r5 262r7 320r7
+177n5*main_car_parked_thread_slots_number_K{169E8} 208r5 264r7 322r7
+178n5*main_car_parked_thread_car_parked_K{169E8} 210r5 266r7 324r7
+179n5*main_car_moved_thread_slots_number_K{169E8} 212r5 268r7 326r7
+180n5*main_car_moved_thread_car_moved_K{169E8} 214r5 270r7 328r7
+181n5*main_inductive_loop_out_thread_car_on_loop_K{169E8} 216r5 272r7 330r7
+182n5*main_inductive_loop_out_thread_recognize_plates_out_K{169E8} 218r5
+. 274r7 332r7
+183n5*main_calculate_price_plate_number_event_K{169E8} 220r5 276r7 334r7
+184n5*main_calculate_price_plate_number_K{169E8} 222r5 278r7 336r7
+185n5*main_calculate_price_calculated_price_K{169E8} 224r5 280r7 338r7
+186n5*main_open_gate_out_thread_parking_paid_K{169E8} 226r5 282r7 340r7
+187n5*main_open_gate_out_thread_open_gate_out_K{169E8} 228r5 284r7 342r7
+188n5*main_car_passed_exit_thread_car_on_loop_K{169E8} 230r5 286r7 344r7
+189n5*main_car_passed_exit_thread_close_gate_K{169E8} 232r5 288r7 346r7
+241E11*UT_Deployment_Main_Port_Type_Range{169E8} 245r11 303r11
+244A8*UT_Deployment_Main_Port_Table_Array(60E8)<169E8> 248r25 249r4
+248a3*Port_Table{244A8}
+291i3*Max_Port_Image_Size{integer} 298r44
+296A11*Port_Sized_String{string}<integer> 304r9
+302A8*UT_Deployment_Main_Port_Image_Array(296A11)<169E8> 306r25 307r4
+306a3*Port_Image{302A8}
+351i3*Max_Payload_Size{integer}
+

@@ -1,0 +1,224 @@
+V "GNAT Lib v7"
+A -O1
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -gnata
+A -gnato
+A -gnatA
+P ZX
+
+RN
+RR NO_ALLOCATORS
+RR NO_DISPATCH
+RV NO_EXCEPTIONS
+RR NO_IO
+RV NO_IMPLICIT_CONDITIONALS
+RR NO_RECURSION
+RV NO_STANDARD_STORAGE_POOLS
+RR NO_UNCHECKED_ACCESS
+RR NO_UNCHECKED_DEALLOCATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+
+U polyorb_hi_generated.subprograms%b  polyorb_hi_generated-subprograms.adb  45539455 NE OO PK
+W ada.exceptions%s	a-except.adb		a-except.ali
+W interfaces%s		interfac.ads		interfac.ali
+W polyorb_hi_generated%s  polyorb_hi_generated.ads  polyorb_hi_generated.ali
+W system%s		system.ads		system.ali
+W system.exception_table%s  s-exctab.adb	s-exctab.ali
+W system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+U polyorb_hi_generated.subprograms%s  polyorb_hi_generated-subprograms.ads  9853c6f5 EE NE OO PK
+W polyorb_hi_generated%s  polyorb_hi_generated.ads  polyorb_hi_generated.ali
+W polyorb_hi_generated.types%s  polyorb_hi_generated-types.ads  polyorb_hi_generated-types.ali
+
+D ada.ads		20170106103348 76789da1 ada%s
+D a-except.ads		20151016123252 291912d5 ada.exceptions%s
+D a-unccon.ads		20170106103348 31484697 ada.unchecked_conversion%s
+D interfac.ads		20160502101001 5ab55268 interfaces%s
+D polyorb_hi_generated.ads  20170204221544 32a22d97 polyorb_hi_generated%s
+D polyorb_hi_generated-subprograms.ads  20200607140027 2fcd073f polyorb_hi_generated.subprograms%s
+D polyorb_hi_generated-subprograms.adb  20200607140027 6a9e936a polyorb_hi_generated.subprograms%b
+D polyorb_hi_generated-types.ads  20200607140027 853cec5d polyorb_hi_generated.types%s
+D system.ads		20170510173650 4635ec04 system%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-stalib.ads		20151112104907 09bd3940 system.standard_library%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D /home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/include/ocarina/runtime/polyorb-hi-ada/native.adc  20170204221544 00000000
+D /home/agata/rzeczywistego/ocarina-2017.1-suite-linux-x86_64-20170204/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20170204221544 00000000
+X 5 polyorb_hi_generated.ads
+34K9*PolyORB_HI_Generated 38e25 6|9r6 11r9 52r21 93r22 94r21 135r21 138r24
+. 141r24 182r21 185r20 186r28 227r21 268r21 301r5 7|10r14 17r21 101r22 102r21
+. 186r21 270r24 282r24 294r21 378r20 379r28 391r21 475r21 554r5
+X 6 polyorb_hi_generated-subprograms.ads
+11K30*Subprograms 5|34k9 6|52r42 94r42 135r42 182r42 227r42 268r42 271E8
+. 301l26 301e37 7|10b35 17r42 102r42 186r42 294r42 391r42 475r42 554l26 554t37
+13E8*parking_system_startPlatesRecognitionIn_Port_Type 14e22 17r12 17r65
+. 39r12 44r12 48r12 7|47r12 64r12 80r12
+14n5*recognize_plates{13E8} 21r14 7|34r12 52r12 53r25 85r12
+16R8*parking_system_startPlatesRecognitionIn_Interface 17d5 28e15 35r21 40r11
+. 7|30r21 48r11
+17e5*Port{13E8} 20r12 7|33r24 53m17
+30R8*parking_system_startPlatesRecognitionIn_Status 34r21 38r14 43r21 47r14
+. 52r54 271c8 274e15 7|17r54 29r21 46r14 63r21 79r14
+33U13*Put_Value 34=5 35>5 7|28b13 39l7 39t16
+34r5 Status{30R8} 7|29b5 35m9
+35r5 Spg_Interface{16R8} 7|30b5 33r10
+37V12*Get_Value{16R8} 38>5 39>5 7|45b12 56l7 56t16
+38r5 Status{30R8} 7|46b5
+39e5 Port{13E8} 7|47b5 51r10
+42U13*Next_Value 43=5 44>5 7|62b13 72l7 72t17
+43r5 Status{30R8} 7|63b5 67r7
+44e5 Port{13E8} 7|64b5 68r7
+46V12*Get_Count{integer} 47>5 48>5 7|78b12 94l7 94t16
+47r5 Status{30R8} 7|79b5 86r12
+48e5 Port{13E8} 7|80b5 84r10
+51U13*parking_system_startPlatesRecognitionIn 52=5 7|16b13 22l7 22t46
+52r5 Status{30R8} 7|17b5
+54E8*parking_system_getPlateNumberFromVideo_Port_Type 55e18 58r12 58r64 80r12
+. 85r12 89r12 7|132r12 149r12 165r12
+55n5*open_gate_in{54E8} 62r14 7|119r12 137r12 138r25 170r12
+57R8*parking_system_getPlateNumberFromVideo_Interface 58d5 69e15 76r21 81r11
+. 7|115r21 133r11
+58e5*Port{54E8} 61r12 7|118r24 138m17
+71R8*parking_system_getPlateNumberFromVideo_Status 75r21 79r14 84r21 88r14
+. 94r54 276c8 279e15 7|102r54 114r21 131r14 148r21 164r14
+74U13*Put_Value 75=5 76>5 7|113b13 124l7 124t16
+75r5 Status{71R8} 7|114b5 120m9
+76r5 Spg_Interface{57R8} 7|115b5 118r10
+78V12*Get_Value{57R8} 79>5 80>5 7|130b12 141l7 141t16
+79r5 Status{71R8} 7|131b5
+80e5 Port{54E8} 7|132b5 136r10
+83U13*Next_Value 84=5 85>5 7|147b13 157l7 157t17
+84r5 Status{71R8} 7|148b5 152r7
+85e5 Port{54E8} 7|149b5 153r7
+87V12*Get_Count{integer} 88>5 89>5 7|163b12 179l7 179t16
+88r5 Status{71R8} 7|164b5 171r12
+89e5 Port{54E8} 7|165b5 169r10
+92U13*parking_system_getPlateNumberFromVideo 93>5 94=5 7|100b13 107l7 107t45
+93i5 plates_data_in{8|12I8} 7|101b5
+94r5 Status{71R8} 7|102b5
+96E8*parking_system_startGateClosingIn_Port_Type 97e19 100r12 100r59 122r12
+. 127r12 131r12 7|216r12 233r12 249r12
+97n5*close_gate_in{96E8} 104r14 7|203r12 221r12 222r25 254r12
+99R8*parking_system_startGateClosingIn_Interface 100d5 111e15 118r21 123r11
+. 7|199r21 217r11
+100e5*Port{96E8} 103r12 7|202r24 222m17
+113R8*parking_system_startGateClosingIn_Status 117r21 121r14 126r21 130r14
+. 135r54 281c8 284e15 7|186r54 198r21 215r14 232r21 248r14
+116U13*Put_Value 117=5 118>5 7|197b13 208l7 208t16
+117r5 Status{113R8} 7|198b5 204m9
+118r5 Spg_Interface{99R8} 7|199b5 202r10
+120V12*Get_Value{99R8} 121>5 122>5 7|214b12 225l7 225t16
+121r5 Status{113R8} 7|215b5
+122e5 Port{96E8} 7|216b5 220r10
+125U13*Next_Value 126=5 127>5 7|231b13 241l7 241t17
+126r5 Status{113R8} 7|232b5 236r7
+127e5 Port{96E8} 7|233b5 237r7
+129V12*Get_Count{integer} 130>5 131>5 7|247b12 263l7 263t16
+130r5 Status{113R8} 7|248b5 255r12
+131e5 Port{96E8} 7|249b5 253r10
+134U13*parking_system_startGateClosingIn 135=5 7|185b13 191l7 191t40
+135r5 Status{113R8} 7|186b5
+137U13*parking_system_incrementAvailableSlots 138<5 7|269b13 275l7 275t45
+138i5 slots_number{8|12I8} 7|270b5
+140U13*parking_system_decrementAvailableSlots 141<5 7|281b13 287l7 287t45
+141i5 slots_number{8|12I8} 7|282b5
+143E8*parking_system_startPlatesRecognitionOut_Port_Type 144e22 147r12 147r66
+. 169r12 174r12 178r12 7|324r12 341r12 357r12
+144n5*recognize_plates{143E8} 151r14 7|311r12 329r12 330r25 362r12
+146R8*parking_system_startPlatesRecognitionOut_Interface 147d5 158e15 165r21
+. 170r11 7|307r21 325r11
+147e5*Port{143E8} 150r12 7|310r24 330m17
+160R8*parking_system_startPlatesRecognitionOut_Status 164r21 168r14 173r21
+. 177r14 182r54 286c8 289e15 7|294r54 306r21 323r14 340r21 356r14
+163U13*Put_Value 164=5 165>5 7|305b13 316l7 316t16
+164r5 Status{160R8} 7|306b5 312m9
+165r5 Spg_Interface{146R8} 7|307b5 310r10
+167V12*Get_Value{146R8} 168>5 169>5 7|322b12 333l7 333t16
+168r5 Status{160R8} 7|323b5
+169e5 Port{143E8} 7|324b5 328r10
+172U13*Next_Value 173=5 174>5 7|339b13 349l7 349t17
+173r5 Status{160R8} 7|340b5 344r7
+174e5 Port{143E8} 7|341b5 345r7
+176V12*Get_Count{integer} 177>5 178>5 7|355b12 371l7 371t16
+177r5 Status{160R8} 7|356b5 363r12
+178e5 Port{143E8} 7|357b5 361r10
+181U13*parking_system_startPlatesRecognitionOut 182=5 7|293b13 299l7 299t47
+182r5 Status{160R8} 7|294b5
+184U13*parking_system_calculatePriceForCarWithPlate 185>5 186<5 7|377b13
+. 384l7 384t51
+185i5 plate_number{8|12I8} 7|378b5
+186i5 calculated_price{8|12I8} 7|379b5
+188E8*parking_system_startGateOpeningOut_Port_Type 189e19 192r12 192r60 214r12
+. 219r12 223r12 7|421r12 438r12 454r12
+189n5*open_gate_out{188E8} 196r14 7|408r12 426r12 427r25 459r12
+191R8*parking_system_startGateOpeningOut_Interface 192d5 203e15 210r21 215r11
+. 7|404r21 422r11
+192e5*Port{188E8} 195r12 7|407r24 427m17
+205R8*parking_system_startGateOpeningOut_Status 209r21 213r14 218r21 222r14
+. 227r54 291c8 294e15 7|391r54 403r21 420r14 437r21 453r14
+208U13*Put_Value 209=5 210>5 7|402b13 413l7 413t16
+209r5 Status{205R8} 7|403b5 409m9
+210r5 Spg_Interface{191R8} 7|404b5 407r10
+212V12*Get_Value{191R8} 213>5 214>5 7|419b12 430l7 430t16
+213r5 Status{205R8} 7|420b5
+214e5 Port{188E8} 7|421b5 425r10
+217U13*Next_Value 218=5 219>5 7|436b13 446l7 446t17
+218r5 Status{205R8} 7|437b5 441r7
+219e5 Port{188E8} 7|438b5 442r7
+221V12*Get_Count{integer} 222>5 223>5 7|452b12 468l7 468t16
+222r5 Status{205R8} 7|453b5 460r12
+223e5 Port{188E8} 7|454b5 458r10
+226U13*parking_system_startGateOpeningOut 227=5 7|390b13 396l7 396t41
+227r5 Status{205R8} 7|391b5
+229E8*parking_system_startGateClosingOut_Port_Type 230e20 233r12 233r60 255r12
+. 260r12 264r12 7|505r12 522r12 538r12
+230n5*close_gate_out{229E8} 237r14 7|492r12 510r12 511r25 543r12
+232R8*parking_system_startGateClosingOut_Interface 233d5 244e15 251r21 256r11
+. 7|488r21 506r11
+233e5*Port{229E8} 236r12 7|491r24 511m17
+246R8*parking_system_startGateClosingOut_Status 250r21 254r14 259r21 263r14
+. 268r54 296c8 299e15 7|475r54 487r21 504r14 521r21 537r14
+249U13*Put_Value 250=5 251>5 7|486b13 497l7 497t16
+250r5 Status{246R8} 7|487b5 493m9
+251r5 Spg_Interface{232R8} 7|488b5 491r10
+253V12*Get_Value{232R8} 254>5 255>5 7|503b12 514l7 514t16
+254r5 Status{246R8} 7|504b5
+255e5 Port{229E8} 7|505b5 509r10
+258U13*Next_Value 259=5 260>5 7|520b13 530l7 530t17
+259r5 Status{246R8} 7|521b5 525r7
+260e5 Port{229E8} 7|522b5 526r7
+262V12*Get_Count{integer} 263>5 264>5 7|536b12 552l7 552t16
+263r5 Status{246R8} 7|537b5 544r12
+264e5 Port{229E8} 7|538b5 542r10
+267U13*parking_system_startGateClosingOut 268=5 7|474b13 480l7 480t41
+268r5 Status{246R8} 7|475b5
+273b7*recognize_plates{boolean} 7|35m16 86r19
+278b7*open_gate_in{boolean} 7|120m16 171r19
+283b7*close_gate_in{boolean} 7|204m16 255r19
+288b7*recognize_plates{boolean} 7|312m16 363r19
+293b7*open_gate_out{boolean} 7|409m16 460r19
+298b7*close_gate_out{boolean} 7|493m16 544r19
+X 7 polyorb_hi_generated-subprograms.adb
+19X5 Nyi 21r11
+104X5 Nyi 106r11
+188X5 Nyi 190r11
+272X5 Nyi 274r11
+284X5 Nyi 286r11
+296X5 Nyi 298r11
+381X5 Nyi 383r11
+393X5 Nyi 395r11
+477X5 Nyi 479r11
+X 8 polyorb_hi_generated-types.ads
+10K30*Types 6|9w27 93r43 138r45 141r45 185r41 186r49 7|101r43 270r45 282r45
+. 378r41 379r49 8|20e31
+12I8*Integer<integer> 6|93r49 138r51 141r51 185r47 186r55 7|101r49 270r51
+. 282r51 378r47 379r55
+
