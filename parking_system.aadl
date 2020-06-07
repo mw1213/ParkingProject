@@ -143,7 +143,7 @@ end camera;
 		CONNECTIONS
 			inductive_loop_in_thread_impl_new_connection: port startPlatesRecognition.recognize_plates -> recognize_plates_in;
 		PROPERTIES
-			Priority => 70;
+			Priority => 90;
 			Dispatch_Protocol => Periodic; Period => 1000ms;
 			Compute_Execution_Time => 1ms .. 3ms;
 			Deadline => 100ms;
@@ -152,9 +152,10 @@ end camera;
 	SUBPROGRAM startPlatesRecognitionIn
 		FEATURES
 			recognize_plates: out event port;
-					properties
-			Source_Language => (Ada95);
-			Source_Name => "radar.controller";
+		properties
+			source_language => (C);
+			source_name => "startPlatesRecognitionIn";
+			source_text => ("parking.c");
 	end startPlatesRecognitionIn;
 	
 	THREAD inductive_loop_out_thread
@@ -171,7 +172,7 @@ end camera;
 		CONNECTIONS
 			inductive_loop_out_thread_impl_new_connection: port startPlatesRecognition.recognize_plates -> recognize_plates_out;
 		PROPERTIES
-			Priority => 70;
+			Priority => 65;
 			Dispatch_Protocol => Periodic; Period => 1000ms;
 			Compute_Execution_Time => 1ms .. 3ms;
 			Deadline => 100ms;
@@ -181,8 +182,9 @@ end camera;
 		FEATURES
 			recognize_plates: out event port;
 		properties
-			Source_Language => (Ada95);
-			Source_Name => "parking.startPlatesRecognitionOut";
+			source_language => (C);
+			source_name => "startPlatesRecognitionOut";
+			source_text => ("parking.c");
 	end startPlatesRecognitionOut;
 
 	THREAD plates_data_thread
@@ -201,7 +203,7 @@ end camera;
 		plates_data_thread_impl_new_connection: port getPlateNumberFromVideo.open_gate_in -> open_gate_in;
 		plates_data_thread_impl_new_connection2: parameter plates_data_in -> getPlateNumberFromVideo.plates_data_in;
 	properties
-		Priority => 95;
+		Priority => 85;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 20ms .. 30ms;
 		Deadline => 1000ms;
@@ -212,8 +214,9 @@ end camera;
 			plates_data_in: in parameter Base_Types::Integer;
 			open_gate_in: out event port;
 		properties
-			Source_Language => (Ada95);
-			Source_Name => "parking.getPlateNumberFromVideo";
+			source_language => (C);
+			source_name => "getPlateNumberFromVideo";
+			source_text => ("parking.c");
 	end getPlateNumberFromVideo;
 
 	THREAD car_passed_entry_thread
@@ -230,7 +233,7 @@ end camera;
 	connections
 		car_passed_entry_thread_impl_new_connection: port startGateClosingIn.close_gate_in -> close_gate;
 	properties
-		Priority => 70;
+		Priority => 80;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
@@ -238,7 +241,11 @@ end camera;
 	
 	SUBPROGRAM startGateClosingIn
 		FEATURES
-			close_gate_in: out event port;	
+			close_gate_in: out event port;
+		properties
+			source_language => (C);
+			source_name => "startGateClosingIn";
+			source_text => ("parking.c");
 	end startGateClosingIn;
 
 	THREAD car_parked_thread
@@ -255,7 +262,7 @@ end camera;
 	connections
 		car_parked_thread_impl_new_connection: parameter incrementAvailableSlots.slots_number -> slots_number;
 	properties
-		Priority => 40;
+		Priority => 75;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
@@ -264,6 +271,10 @@ end car_parked_thread.impl;
 	SUBPROGRAM incrementAvailableSlots
 		FEATURES
 			slots_number: out parameter Base_Types::Integer;	
+		properties
+			source_language => (C);
+			source_name => "incrementAvailableSlots";
+			source_text => ("parking.c");
 	end incrementAvailableSlots;
 
 	THREAD car_moved_thread
@@ -280,7 +291,7 @@ end car_parked_thread.impl;
 	connections
 		car_moved_thread_impl_new_connection: parameter decrementAvailableSlots.slots_number -> slots_number;
 	properties
-		Priority => 40;
+		Priority => 70;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
@@ -289,6 +300,10 @@ end car_moved_thread.impl;
 	SUBPROGRAM decrementAvailableSlots
 		FEATURES
 			slots_number: out parameter Base_Types::Integer;	
+		properties
+			source_language => (C);
+			source_name => "decrementAvailableSlots";
+			source_text => ("parking.c");
 	end decrementAvailableSlots;
 
 	THREAD calculate_price
@@ -307,7 +322,7 @@ end car_moved_thread.impl;
 		calculate_price_impl_new_connection: parameter plate_number -> calculatePriceForCarWithPlate.plate_number;
 		calculate_price_impl_new_connection2: parameter calculatePriceForCarWithPlate.calculated_price -> calculated_price;
 	properties
-		Priority => 70;
+		Priority => 60;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 20ms .. 30ms;
 		Deadline => 1000ms;
@@ -317,6 +332,10 @@ end calculate_price.impl;
 		FEATURES
 			plate_number: in parameter Base_Types::Integer;
 			calculated_price: out parameter Base_Types::Integer;
+		properties
+			source_language => (C);
+			source_name => "calculatePriceForCarWithPlate";
+			source_text => ("parking.c");
 	end calculatePriceForCarWithPlate;
 
 	THREAD open_gate_out_thread
@@ -333,7 +352,7 @@ end calculate_price.impl;
 	connections
 		open_gate_out_thread_impl_new_connection: port startGateOpeningOut.open_gate_out -> open_gate_out;
 	properties
-		Priority => 60;
+		Priority => 55;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
@@ -342,6 +361,10 @@ end open_gate_out_thread.impl;
 	SUBPROGRAM startGateOpeningOut
 		FEATURES
 			open_gate_out: out event port;	
+		properties
+			source_language => (C);
+			source_name => "startGateOpeningOut";
+			source_text => ("parking.c");
 	end startGateOpeningOut;
 
 	THREAD car_passed_exit_thread
@@ -358,7 +381,7 @@ end open_gate_out_thread.impl;
 	connections
 		car_passed_exit_thread_impl_new_connection: port startGateClosingOut.close_gate_out -> close_gate;
 	properties
-		Priority => 70;
+		Priority => 50;
 		Dispatch_Protocol => Periodic; Period => 1000ms;
 		Compute_Execution_Time => 1ms .. 3ms;
 		Deadline => 100ms;
@@ -367,6 +390,10 @@ end car_passed_exit_thread.impl;
 	SUBPROGRAM startGateClosingOut
 		FEATURES
 			close_gate_out: out event port;	
+		properties
+			source_language => (C);
+			source_name => "startGateClosingOut";
+			source_text => ("parking.c");
 	end startGateClosingOut;
 
 	PROCESS parking_process
